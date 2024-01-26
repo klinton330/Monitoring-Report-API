@@ -60,8 +60,12 @@ public class MonitoringDataServiceImpl implements MonitoringDataService {
 	}
 
 	@Override
-	public MonitorData updateData(Long id, MonitorData monitorData) {
+	public MonitorData updateData(Long id, MonitorData monitorData) throws DataAlreadyFoundException {
 		MonitorData getMonitor = monitoringDataRepo.findById(id).get();
+		LocalDate updateddate=monitorData.getDateField();
+		String updatedbusiness=monitorData.getBusinessUnit();
+		LocalDate existingDate=getMonitor.getDateField();
+		String existingbusiness=getMonitor.getBusinessUnit();
 		System.out.println("BEFORE" + getMonitor.getAbandoned());
 		getMonitor.setDateField(monitorData.getDateField());
 		getMonitor.setBusinessUnit(monitorData.getBusinessUnit());
@@ -75,7 +79,12 @@ public class MonitoringDataServiceImpl implements MonitoringDataService {
 		getMonitor.setCallflowDisconnect(monitorData.getCallflowDisconnect());
 		getMonitor.setCustomerDisconnect(monitorData.getCustomerDisconnect());
 		getMonitor.setSms(monitorData.getSms());
-		return monitoringDataRepo.save(getMonitor);
+        System.out.println(existsByDateFieldAndBusinessUnit(monitorData.getDateField(), monitorData.getBusinessUnit())||(updateddate.equals(existingDate)||updatedbusiness.equalsIgnoreCase(existingbusiness)));
+		if (!existsByDateFieldAndBusinessUnit(monitorData.getDateField(), monitorData.getBusinessUnit())||(updateddate.equals(existingDate)&&updatedbusiness.equalsIgnoreCase(existingbusiness)))
+			return monitoringDataRepo.save(monitorData);
+		else
+			throw new DataAlreadyFoundException("Date or business Unit already found for this date so cannot be updated");
+		
 	}
 
 	public List<MonitorData> fetchAllData() {

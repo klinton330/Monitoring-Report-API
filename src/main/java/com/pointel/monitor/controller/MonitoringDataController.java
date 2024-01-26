@@ -50,7 +50,7 @@ public class MonitoringDataController {
 	}
 
 	@PostMapping("/update/{id}")
-	public ResponseEntity<MonitorData> updateData(@PathVariable Long id, @RequestBody MonitorData monitorData) {
+	public ResponseEntity<MonitorData> updateData(@PathVariable Long id, @RequestBody MonitorData monitorData) throws DataAlreadyFoundException {
 		System.out.println("/update/id");
 		MonitorData monitorData1 = monitoringDataService.updateData(id, monitorData);
 		return new ResponseEntity<MonitorData>(monitorData1, HttpStatus.OK);

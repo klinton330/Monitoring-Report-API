@@ -15,7 +15,7 @@ public interface MonitoringDataService {
     public MonitorData getByDateAndBu(LocalDate dateField, String businessUnit)throws DataNotFoundException ;
     public List<MonitorData>dataBetweenTwoDates(LocalDate startDate,LocalDate endDate);
     public MonitorData getById(Long id);
-    public MonitorData updateData(Long id ,MonitorData monitorData);
+    public MonitorData updateData(Long id ,MonitorData monitorData)throws DataAlreadyFoundException;
     public List<MonitorData> fetchAllData();
     public String delete(Long id);
     public List<MonitorData> fetchDataByTotal(LocalDate localDate)throws DataNotFoundException;
