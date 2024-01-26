@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pointel.monitor.entity.HourlyReport;
+import com.pointel.monitor.exception.DataAlreadyFoundException;
 import com.pointel.monitor.service.HourlyMonitoringDataService;
 
 @RestController
@@ -19,8 +20,8 @@ public class HourlyReportController {
 	@Autowired
 	HourlyMonitoringDataService hourlyMonitorService;
 
-	@PostMapping("save")
-	public ResponseEntity<HourlyReport> saveHourly(@RequestBody HourlyReport hourlyReport) {
+	@PostMapping("/save")
+	public ResponseEntity<HourlyReport> saveHourly(@RequestBody HourlyReport hourlyReport) throws DataAlreadyFoundException {
 		HourlyReport hourlyReport1 = hourlyMonitorService.save(hourlyReport);
 		return new ResponseEntity<HourlyReport>(hourlyReport1, HttpStatus.CREATED);
 	}
