@@ -17,5 +17,6 @@ public interface MontoringDataRepository extends JpaRepository<MonitorData, Long
     MonitorData findByDateFieldAndBusinessUnit(LocalDate dateField,String bu);
     @Query("SELECT e FROM MonitorData e WHERE e.dateField BETWEEN :startDate AND :endDate")
     List<MonitorData> findByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    List<MonitorData> findByDateFieldBetween(LocalDate startDate, LocalDate endDate);
    
 }

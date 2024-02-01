@@ -49,7 +49,7 @@ public class MonitoringDataServiceImpl implements MonitoringDataService {
 	}
 
 	@Override
-	public List<MonitorData> dataBetweenTwoDates(LocalDate startDate, LocalDate endDate) {
+	public List<MonitorData> dataBetweenTwoDates(LocalDate startDate, LocalDate endDate)throws DataNotFoundException  {
 		List<MonitorData> getData = monitoringDataRepo.findByDateRange(startDate, endDate);
 		return getData;
 	}
@@ -146,5 +146,7 @@ public class MonitoringDataServiceImpl implements MonitoringDataService {
 		listByDate.add(total);
 		return listByDate;
 	}
+
+	
 
 }

@@ -1,8 +1,8 @@
-package com.pointel.monitor.domain;
+package com.pointel.monitor.chartdomain;
 
 import java.util.ArrayList;
 
-public class ChartMetrics {
+public class HourlyChartMetrics {
 
 	private String metricsName;
 	private ArrayList<String> times = new ArrayList<>();

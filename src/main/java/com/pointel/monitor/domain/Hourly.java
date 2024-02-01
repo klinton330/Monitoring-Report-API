@@ -3,20 +3,23 @@ package com.pointel.monitor.domain;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pointel.monitor.chartdomain.HourlyChart;
 import com.pointel.monitor.entity.HourlyReport;
 
 public class Hourly {
 	
 	private LocalDate date;
 	private String businessType;
+	@JsonIgnore
 	private List<HourlyReport> hourly;
-	private Chart chart;
+	private HourlyChart chart;
 	
 	
-	public Chart getChart() {
+	public HourlyChart getChart() {
 		return chart;
 	}
-	public void setChart(Chart chart) {
+	public void setChart(HourlyChart chart) {
 		this.chart = chart;
 	}
 	public String getBusinessType() {

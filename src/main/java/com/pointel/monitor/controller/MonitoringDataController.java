@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lowagie.text.DocumentException;
+import com.pointel.monitor.domain.DayWise;
 import com.pointel.monitor.entity.MonitorData;
 import com.pointel.monitor.exception.DataAlreadyFoundException;
 import com.pointel.monitor.exception.DataNotFoundException;
@@ -88,7 +89,7 @@ public class MonitoringDataController {
 
 	@GetMapping("/fetch/dates")
 	public ResponseEntity<List<MonitorData>> getDataBetweenDates(@RequestParam("startdate") String startDate,
-			@RequestParam("enddate") String endDate) {
+			@RequestParam("enddate") String endDate) throws DataNotFoundException {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate start = LocalDate.parse(startDate, formatter);
 		LocalDate end = LocalDate.parse(endDate, formatter);
@@ -129,6 +130,10 @@ public class MonitoringDataController {
 		headers.setContentType(MediaType.APPLICATION_PDF);
 		headers.setContentDispositionFormData("inline", "Data_" + date1 + ".pdf");
 		return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
-
+	}
+	@GetMapping("/fetch/betweendates/chart")
+	public ResponseEntity<DayWise> getDataBetween(@RequestParam("startDate") LocalDate start,@RequestParam("endDate") LocalDate end){
+		return null;
+		
 	}
 }
