@@ -51,7 +51,8 @@ public class MonitoringDataController {
 	}
 
 	@PostMapping("/update/{id}")
-	public ResponseEntity<MonitorData> updateData(@PathVariable Long id, @RequestBody MonitorData monitorData) throws DataAlreadyFoundException {
+	public ResponseEntity<MonitorData> updateData(@PathVariable Long id, @RequestBody MonitorData monitorData)
+			throws DataAlreadyFoundException {
 		System.out.println("/update/id");
 		MonitorData monitorData1 = monitoringDataService.updateData(id, monitorData);
 		return new ResponseEntity<MonitorData>(monitorData1, HttpStatus.OK);
@@ -124,16 +125,34 @@ public class MonitoringDataController {
 		LocalDate date1 = LocalDate.parse(date, formatter);
 		List<MonitorData> listByDate = monitoringDataService.fetchDataByTotal(date1);
 		PDFGenerator pgfGenerator = new PDFGenerator();
-		listByDate.forEach(x->System.out.println(x.getBusinessUnit()));
+		listByDate.forEach(x -> System.out.println(x.getBusinessUnit()));
 		byte[] pdfBytes = pgfGenerator.generate(listByDate, response);
-        HttpHeaders headers = new HttpHeaders();
+		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PDF);
 		headers.setContentDispositionFormData("inline", "Data_" + date1 + ".pdf");
 		return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
 	}
+
 	@GetMapping("/fetch/betweendates/chart")
-	public ResponseEntity<DayWise> getDataBetween(@RequestParam("startDate") LocalDate start,@RequestParam("endDate") LocalDate end){
-		return null;
-		
+	public ResponseEntity<DayWise> getDataBetween(@RequestParam("startDate") String start,
+			@RequestParam("endDate") String end) throws DataNotFoundException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate startDate = LocalDate.parse(start, formatter);
+		LocalDate endDate = LocalDate.parse(end, formatter);
+		DayWise dayWise = monitoringDataService.getDataAllBu(startDate, endDate);
+		return new ResponseEntity<DayWise>(dayWise, HttpStatus.OK);
+
+	}
+
+	@GetMapping("/fetch/betweendates/bu/chart")
+	public ResponseEntity<DayWise> getDataBetween(@RequestParam("startDate") String start,
+			@RequestParam("endDate") String end, @RequestParam("businessUnit") String bu,
+			@RequestParam("metrics") String metrics) throws DataNotFoundException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate startDate = LocalDate.parse(start, formatter);
+		LocalDate endDate = LocalDate.parse(end, formatter);
+		DayWise dayWise = monitoringDataService.getDataOneBu(startDate, endDate, bu, metrics);
+		return new ResponseEntity<DayWise>(dayWise, HttpStatus.OK);
+
 	}
 }

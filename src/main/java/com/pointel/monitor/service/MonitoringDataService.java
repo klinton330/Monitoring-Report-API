@@ -3,6 +3,7 @@ package com.pointel.monitor.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.pointel.monitor.domain.DayWise;
 import com.pointel.monitor.entity.MonitorData;
 import com.pointel.monitor.exception.DataAlreadyFoundException;
 import com.pointel.monitor.exception.DataNotFoundException;
@@ -19,5 +20,8 @@ public interface MonitoringDataService {
     public List<MonitorData> fetchAllData();
     public String delete(Long id);
     public List<MonitorData> fetchDataByTotal(LocalDate localDate)throws DataNotFoundException;
+    public DayWise getDataAllBu(LocalDate startdate,LocalDate enddate)throws DataNotFoundException;
+	public DayWise getDataOneBu(LocalDate startDate, LocalDate endDate, String bu,String metrics)throws DataNotFoundException;
+    
 
 }

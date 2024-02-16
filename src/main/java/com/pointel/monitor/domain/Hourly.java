@@ -15,7 +15,6 @@ public class Hourly {
 	private List<HourlyReport> hourly;
 	private HourlyChart chart;
 	
-	
 	public HourlyChart getChart() {
 		return chart;
 	}

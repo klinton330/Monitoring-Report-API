@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pointel.monitor.chartdomain.HourlyChart;
-import com.pointel.monitor.chartdomain.HourlyChartMetrics;
+import com.pointel.monitor.chartdomain.ChartMetrics;
 import com.pointel.monitor.domain.Hourly;
 import com.pointel.monitor.entity.HourlyReport;
 import com.pointel.monitor.exception.DataAlreadyFoundException;
@@ -57,7 +57,7 @@ public class HourlyMonitoringDataServiceImpl implements HourlyMonitoringDataServ
 	public Hourly getHourlyforChart(LocalDate localDate, String bu, String metrics) throws DataNotFoundException {
 		List<HourlyReport> getListOfData = hourlyDataRepository.findByDateFieldAndBusinessUnit(localDate, bu);
 		Hourly hourly = new Hourly();
-		HourlyChartMetrics cm = new HourlyChartMetrics();
+		ChartMetrics cm = new ChartMetrics();
 		hourly.setDate(localDate);
 		if (getListOfData.size() <= 0)
 			throw new DataNotFoundException("Data not found for date:" + localDate);
@@ -80,7 +80,7 @@ public class HourlyMonitoringDataServiceImpl implements HourlyMonitoringDataServ
 		cm.setTimes(times);
 		cm.setMetricsdata(metricsdata);
 		HourlyChart ch = new HourlyChart();
-		List<HourlyChartMetrics> chart = new ArrayList<>();
+		List<ChartMetrics> chart = new ArrayList<>();
 		chart.add(cm);
 		ch.setChartData(chart);
 		hourly.setChart(ch);
@@ -90,13 +90,13 @@ public class HourlyMonitoringDataServiceImpl implements HourlyMonitoringDataServ
 	public Hourly getHourlyMultiple(LocalDate localDate, String bu, String metrics) throws DataNotFoundException {
 		List<HourlyReport> getListOfData = hourlyDataRepository.findByDateFieldAndBusinessUnit(localDate, bu);
 		Hourly hourly = new Hourly();
-		HourlyChartMetrics cm = null;
+		ChartMetrics cm = null;
 		HourlyChart ch = null;
 		String time;
 		int metric = 0;
 		ArrayList<String> times;
 		ArrayList<Integer> metricsdata;
-		List<HourlyChartMetrics> chart = new ArrayList<>();
+		List<ChartMetrics> chart = new ArrayList<>();
 
 		hourly.setDate(localDate);
 		if (getListOfData.size() <= 0)
@@ -108,7 +108,7 @@ public class HourlyMonitoringDataServiceImpl implements HourlyMonitoringDataServ
 
 		String[] data = metrics.split(",");
 		for (int k = 0; k < data.length; k++) {// outbound
-			cm = new HourlyChartMetrics();
+			cm = new ChartMetrics();
 			times = new ArrayList<>();
 			metricsdata = new ArrayList<>();
 
